@@ -85472,9 +85472,10 @@ var actions = {
         });
       } else {
         commit('incrementItemQuantity', cartItem);
-      } // remove 1 item from stock
-      // commit('products/decrementProductInventory', { id: product.id }, { root: true })
+      }
 
+      alert('Товар добавлен в корзину.'); // remove 1 item from stock
+      // commit('products/decrementProductInventory', { id: product.id }, { root: true })
     }
   }
 }; // mutations
