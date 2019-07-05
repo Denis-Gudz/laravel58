@@ -113,7 +113,6 @@
                     .then((response) => {
                         alert(response.data['success']);
                         this.$emit('input');
-                        //this.$router.go(-1);
                     })
                     .catch((e) => {
                         alert(e, response.data['msg']);

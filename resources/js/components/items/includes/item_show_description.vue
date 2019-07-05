@@ -4,7 +4,7 @@
             <label for="description">Описание товара</label>
             <textarea name="description"
                       id="description"
-                      rows="20"
+                      rows="5"
                       class="form-control" v-model="description" disabled>
             </textarea>
         </div>

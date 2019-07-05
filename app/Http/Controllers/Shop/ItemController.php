@@ -37,7 +37,7 @@ class ItemController extends BaseController
      */
     public function index()
     {
-        $paginator = $this->shopItemRepository->getAllWithPaginate(3);
+        $paginator = $this->shopItemRepository->getAllWithPaginate(6);
 
         return view('shop.items.index', compact('paginator'));
     }

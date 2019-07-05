@@ -38,7 +38,7 @@ class ItemsApiController extends Controller
      */
     public function shop()
     {
-        $paginator = $this->shopItemRepository->getAllWithPaginate(3);
+        $paginator = $this->shopItemRepository->getAllWithPaginate(6);
 
         return $paginator;
     }

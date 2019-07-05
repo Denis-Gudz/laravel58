@@ -19,7 +19,14 @@
                         </ul>
                         <p>Total: {{ total | currency }}</p>
                         <p><button class="btn btn-primary" :disabled="!products.length" @click="checkout(products)">Checkout</button></p>
-                        <p v-show="checkoutStatus">Checkout {{ checkoutStatus }}.</p>
+                        <p v-show="checkoutStatus">
+                          <v-alert :value="true" type="success" v-if="checkoutStatus==='successful'">
+                              Checkout {{ checkoutStatus }}
+                          </v-alert>
+                        <v-alert :value="true" type="error" v-else="checkoutStatus==='failed'">
+                            Checkout {{ checkoutStatus }}
+                        </v-alert>
+                        </p>
                       </div>
                   </div>
                 </form>

@@ -12,19 +12,48 @@
                             <ShoppingCart v-model="dialog"/>
                             <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
                                 <nav class="nav nav-pills nav-fill">
-                                    <a class="nav-link" href="#" v-on:click="currentView = 'grid'">Плитка <span class="sr-only">(current)</span></a>
-                                    <a class="nav-link" href="#" v-on:click="currentView = 'list'">Список</a>
-                                    <a class="nav-link" href="#" id="dialog_edit" @click="dialog= true">Товаров в корзине: {{ cartTotalQuantity }}</a>
+
+                                    <v-bottom-nav
+                                        :active.sync="bottomNav"
+                                        :color='indigo'
+                                        :value="true"
+                                        absolute
+                                        dark
+                                        shift
+                                    >
+
+                                        <v-btn dark v-on:click="currentView = 'grid'">
+                                            <span>Сетка</span>
+                                            <v-icon>view_module</v-icon>
+                                        </v-btn>
+
+                                        <v-btn v-on:click="currentView = 'list'">
+                                            <span>Список</span>
+                                            <v-icon>view_list</v-icon>
+                                        </v-btn>
+                                    </v-bottom-nav>
                                 </nav>
+
+                                <v-badge left @click="dialog= true">
+                                    <template v-slot:badge>
+                                        <span>{{cartTotalQuantity}}</span>
+                                    </template>
+                                    <v-icon
+                                        large
+                                        color="grey lighten-1"
+                                        @click="dialog= true"
+                                    >
+                                        shopping_cart
+                                    </v-icon>
+                                </v-badge>
+
                             </nav>
                             <br>
 
                             <component :is="currentViewComponent" :items="items"></component>
 
-                            <component :is="'item_show_description'"></component>
-                        </v-app>
-                    </div>
-                </div>
+                            <component :is="'item_show_description'" v-if="currentView === 'list'"></component>
+
 
                 <div class="text-xs-center">
                     <v-pagination
@@ -34,7 +63,9 @@
                         @input="onPageChange"
                     ></v-pagination>
                 </div>
-
+                        </v-app>
+                    </div>
+                </div>
             </div>
         </transition>
     </div>
@@ -70,6 +101,7 @@
                 currentView: 'list',
                 searchText:'',
                 description: '',
+                bottomNav: 1,
             }
         },
         beforeMount() {

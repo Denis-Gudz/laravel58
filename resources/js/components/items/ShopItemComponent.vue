@@ -35,9 +35,6 @@
                 id: null,
             }
         },
-        created () {
-            // this.fetchData()
-        },
         beforeUpdate(){
             this.loading = this.$attrs.loading;
             this.fetchData();

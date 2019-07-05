@@ -1,9 +1,5 @@
 <template>
     <div>
-<!--    <div id="category_edit">-->
-<!--        <div class="loading" v-if="loading">-->
-<!--            Загрузка...-->
-<!--        </div>-->
         <v-dialog :value="value" @input="$emit('input')">
         <form @submit.prevent="submitHandler">
             <div v-if="category" class="container">
@@ -38,9 +34,6 @@
                 loading: true,
                 id: null,
             }
-        },
-        created () {
-            // this.fetchData()
         },
         beforeUpdate(){
             this.loading = this.$attrs.loading;

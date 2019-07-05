@@ -11,9 +11,6 @@
 
                             <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
                                 <v-btn @click="dialog = true" depressed color="primary" >Добавить</v-btn>
-    <!--                            <router-link :to="{ name: 'categoryCreate'}" class="btn btn-primary">-->
-    <!--                                Добавить-->
-    <!--                            </router-link>-->
                             </nav>
                             <div class="card">
                                 <div class="card-body">
@@ -30,9 +27,6 @@
                                                 <td>{{ category.id }}</td>
                                                 <td>
                                                     <a href="#" id="dialog_edit" @click="open(category.id)">{{ category.title }}</a>
-    <!--                                                <router-link @click.prevent="dialog_edit = true" :to="{ name: 'categoryEdit', params: { id: category.id }}">-->
-    <!--                                                    {{ category.title }}-->
-    <!--                                                </router-link>-->
                                                 </td>
                                                 <td v-if="category.parent_id !== 0">{{ category.parent_category.title }}</td>
                                             </tr>

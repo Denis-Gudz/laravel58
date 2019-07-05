@@ -60,7 +60,7 @@ const actions = {
       } else {
         commit('incrementItemQuantity', cartItem)
       }
-      alert('Товар добавлен в корзину.')
+        alert('Товар добавлен в корзину.');
       // remove 1 item from stock
       // commit('products/decrementProductInventory', { id: product.id }, { root: true })
     }
