@@ -1885,6 +1885,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -1934,6 +1951,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     }
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapGetters"])('cart', ['cartTotalQuantity']), {
+    isAddToCart: {
+      get: function get() {
+        return this.$store.getters['cart/isAddToCart'];
+      },
+      set: function set(value) {
+        this.setStatusAddToCart();
+      }
+    },
     searchText: function searchText() {
       this.getSearchText();
     }
@@ -1967,20 +1992,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.dialog_show = true;
       this.loading = true;
     },
-    changeSearchText: function (_changeSearchText) {
-      function changeSearchText() {
-        return _changeSearchText.apply(this, arguments);
-      }
-
-      changeSearchText.toString = function () {
-        return _changeSearchText.toString();
-      };
-
-      return changeSearchText;
-    }(function () {
-      console.log(changeSearchText);
+    changeSearchText: function changeSearchText() {
       this.description = this.searchTextStr;
-    }),
+    },
     changeView: function changeView() {
       this.view = this.$store.getters['view/getCurrentView'];
     },
@@ -2001,6 +2015,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })["catch"](function () {
         console.log('search title server error from here');
       });
+    },
+    setStatusAddToCart: function setStatusAddToCart() {
+      this.$store.commit('cart/setStatusAddToCart', false);
     }
   }
 });
@@ -3513,32 +3530,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "item_view_row",
@@ -3631,10 +3622,6 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-//
-//
-//
-//
 //
 //
 //
@@ -8149,7 +8136,7 @@ exports = module.exports = __webpack_require__(/*! ../../../../../node_modules/c
 
 
 // module
-exports.push([module.i, "\n.v-card--reveal[data-v-1ae787a4] {\n    -webkit-box-align: center;\n            align-items: center;\n    bottom: 0;\n    -webkit-box-pack: center;\n            justify-content: center;\n    opacity: .5;\n    position: absolute;\n    width: 100%;\n}\n", ""]);
+exports.push([module.i, "\n.v-card--reveal[data-v-1ae787a4] {\n    -webkit-box-align: center;\n            align-items: center;\n    bottom: 0;\n    -webkit-box-pack: center;\n            justify-content: center;\n    opacity: .5;\n    position: absolute;\n    width: 100%;\n}\n.v-btn--floating.v-btn--absolute[data-v-1ae787a4]{\n    z-index: 1;\n}\n", ""]);
 
 // exports
 
@@ -39683,63 +39670,96 @@ var render = function() {
         [
           _c("router-view"),
           _vm._v(" "),
-          _c("div", { staticClass: "container" }, [
-            _c("div", { staticClass: "row justify-content-center" }, [
+          _c(
+            "div",
+            { staticClass: "container" },
+            [
               _c(
-                "div",
-                { staticClass: "col-md-12" },
+                "v-snackbar",
+                {
+                  attrs: { timeout: 6000, top: true, color: "green lighten-1" },
+                  model: {
+                    value: _vm.isAddToCart,
+                    callback: function($$v) {
+                      _vm.isAddToCart = $$v
+                    },
+                    expression: "isAddToCart"
+                  }
+                },
                 [
+                  _vm._v(
+                    "\n                Товар добавлен в корзину\n                "
+                  ),
                   _c(
-                    "v-app",
-                    [
-                      _c("ShoppingCart", {
-                        model: {
-                          value: _vm.cartDialog,
-                          callback: function($$v) {
-                            _vm.cartDialog = $$v
-                          },
-                          expression: "cartDialog"
-                        }
-                      }),
-                      _vm._v(" "),
-                      _c(_vm.currentViewComponent, {
-                        tag: "component",
-                        attrs: { items: _vm.items }
-                      }),
-                      _vm._v(" "),
-                      _vm.view === "list"
-                        ? _c("item_show_description", { tag: "component" })
-                        : _vm._e(),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "text-xs-center" },
-                        [
-                          _c("v-pagination", {
-                            attrs: {
-                              length: parseInt(_vm.last_page),
-                              "total-visible": 7
-                            },
-                            on: { input: _vm.onPageChange },
-                            model: {
-                              value: _vm.page,
-                              callback: function($$v) {
-                                _vm.page = $$v
-                              },
-                              expression: "page"
-                            }
-                          })
-                        ],
-                        1
-                      )
-                    ],
-                    1
+                    "v-btn",
+                    {
+                      attrs: { flat: "", color: "black" },
+                      on: { click: _vm.setStatusAddToCart }
+                    },
+                    [_vm._v("\n                    Close\n                ")]
                   )
                 ],
                 1
-              )
-            ])
-          ])
+              ),
+              _vm._v(" "),
+              _c("div", { staticClass: "row justify-content-center" }, [
+                _c(
+                  "div",
+                  { staticClass: "col-md-12" },
+                  [
+                    _c(
+                      "v-app",
+                      [
+                        _c("ShoppingCart", {
+                          model: {
+                            value: _vm.cartDialog,
+                            callback: function($$v) {
+                              _vm.cartDialog = $$v
+                            },
+                            expression: "cartDialog"
+                          }
+                        }),
+                        _vm._v(" "),
+                        _c(_vm.currentViewComponent, {
+                          tag: "component",
+                          attrs: { items: _vm.items }
+                        }),
+                        _vm._v(" "),
+                        _vm.view === "list"
+                          ? _c("item_show_description", { tag: "component" })
+                          : _vm._e(),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "text-xs-center" },
+                          [
+                            _c("v-pagination", {
+                              attrs: {
+                                length: parseInt(_vm.last_page),
+                                "total-visible": 7
+                              },
+                              on: { input: _vm.onPageChange },
+                              model: {
+                                value: _vm.page,
+                                callback: function($$v) {
+                                  _vm.page = $$v
+                                },
+                                expression: "page"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  ],
+                  1
+                )
+              ])
+            ],
+            1
+          )
         ],
         1
       )
@@ -42662,9 +42682,9 @@ var render = function() {
                                                 },
                                                 [
                                                   _vm._v(
-                                                    "\n                                            $" +
+                                                    "\n                                        $" +
                                                       _vm._s(item.price) +
-                                                      "\n                                        "
+                                                      "\n                                    "
                                                   )
                                                 ]
                                               )
@@ -42733,14 +42753,14 @@ var render = function() {
                                               },
                                               [
                                                 _vm._v(
-                                                  "\n                                        " +
+                                                  "\n                                    " +
                                                     _vm._s(
                                                       item.description.slice(
                                                         0,
                                                         100
                                                       )
                                                     ) +
-                                                    "\n                                    "
+                                                    "\n                                "
                                                 )
                                               ]
                                             )
@@ -42887,33 +42907,27 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "div",
+    "v-toolbar-items",
+    { staticClass: "hidden-sm-and-down" },
     [
-      _c(
-        "v-btn",
-        { attrs: { light: "" } },
-        [
-          _c("v-text-field", {
-            staticClass: "mt-n2",
-            attrs: {
-              label: "Search",
-              "single-line": "",
-              clearable: "",
-              flat: "",
-              "full-width": ""
-            },
-            on: { "click:clear": _vm.clearSearchText },
-            model: {
-              value: _vm.searchText,
-              callback: function($$v) {
-                _vm.searchText = $$v
-              },
-              expression: "searchText"
-            }
-          })
-        ],
-        1
-      ),
+      _c("v-text-field", {
+        staticClass: "mt-2 hidden-sm-and-down",
+        attrs: {
+          label: "Search",
+          rounded: "",
+          "solo-inverted": "",
+          clearable: "",
+          flat: ""
+        },
+        on: { "click:clear": _vm.clearSearchText },
+        model: {
+          value: _vm.searchText,
+          callback: function($$v) {
+            _vm.searchText = $$v
+          },
+          expression: "searchText"
+        }
+      }),
       _vm._v(" "),
       _c(
         "v-btn",
@@ -86626,7 +86640,8 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr
 
 var state = {
   items: [],
-  checkoutStatus: null // getters
+  checkoutStatus: null,
+  successfulAddToCart: false // getters
 
 };
 var getters = {
@@ -86656,6 +86671,9 @@ var getters = {
     return getters.cartProducts.reduce(function (total, product) {
       return total + product.price * product.quantity;
     }, 0);
+  },
+  isAddToCart: function isAddToCart(state, getters) {
+    return state.successfulAddToCart;
   } // actions
 
 };
@@ -86699,7 +86717,7 @@ var actions = {
         commit('incrementItemQuantity', cartItem);
       }
 
-      alert('Товар добавлен в корзину.'); // remove 1 item from stock
+      commit('setStatusAddToCart', true); // remove 1 item from stock
       // commit('products/decrementProductInventory', { id: product.id }, { root: true })
     }
   }
@@ -86726,6 +86744,9 @@ var mutations = {
   },
   setCheckoutStatus: function setCheckoutStatus(state, status) {
     state.checkoutStatus = status;
+  },
+  setStatusAddToCart: function setStatusAddToCart(state, status) {
+    state.successfulAddToCart = status;
   }
 };
 /* harmony default export */ __webpack_exports__["default"] = ({

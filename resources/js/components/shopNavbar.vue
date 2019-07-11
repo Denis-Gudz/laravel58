@@ -1,12 +1,8 @@
 <template>
-    <div>
+    <v-toolbar-items class="hidden-sm-and-down">
 
-
-
-        <v-btn light>
-            <v-text-field label="Search" v-model="searchText" single-line clearable flat full-width class="mt-n2" @click:clear="clearSearchText">
-            </v-text-field>
-        </v-btn>
+        <v-text-field label="Search" v-model="searchText" rounded solo-inverted clearable flat class="mt-2 hidden-sm-and-down" @click:clear="clearSearchText">
+        </v-text-field>
 
         <v-btn icon @click="searchItemByTittle">
             <v-icon>search</v-icon>
@@ -26,7 +22,7 @@
             </v-badge>
 
         </v-btn>
-    </div>
+    </v-toolbar-items>
 </template>
 
 <script>

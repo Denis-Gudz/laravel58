@@ -3,6 +3,23 @@
         <transition mode="out-in">
         <router-view></router-view>
             <div class="container">
+
+                <v-snackbar
+                    v-model="isAddToCart"
+                    :timeout="6000"
+                    :top="true"
+                    color="green lighten-1"
+                >
+                    Товар добавлен в корзину
+                    <v-btn
+                        flat
+                        color="black"
+                        @click="setStatusAddToCart"
+                    >
+                        Close
+                    </v-btn>
+                </v-snackbar>
+
                 <div class="row justify-content-center">
                     <div class="col-md-12">
                         <v-app>
@@ -85,6 +102,15 @@
                 'cartTotalQuantity'
             ]),
 
+            isAddToCart:{
+                get: function () {
+                    return this.$store.getters['cart/isAddToCart'];
+                },
+                set: function(value){
+                    this.setStatusAddToCart();
+                }
+            },
+
             searchText(){
                 this.getSearchText();
             },
@@ -118,7 +144,6 @@
                 this.loading = true;
             },
             changeSearchText(){
-            console.log(changeSearchText);
               this.description = this.searchTextStr;
             },
             changeView(){
@@ -142,6 +167,9 @@
                     .catch(() => {
                         console.log('search title server error from here');
                     });
+            },
+            setStatusAddToCart(){
+                this.$store.commit('cart/setStatusAddToCart',false);
             },
         },
     }

@@ -55,32 +55,6 @@
                                 </v-card-text>
                             </v-card>
                         </v-hover>
-
-<!--                        <v-card-->
-<!--                            dark-->
-<!--                            height="300"-->
-<!--                        >-->
-<!--                            <v-img-->
-<!--                                src="https://cdn.vuetifyjs.com/images/cards/desert.jpg"-->
-<!--                                aspect-ratio="2.75"-->
-<!--                            ></v-img>-->
-
-<!--                            <v-card-text row style="height: 100px">-->
-<!--                                <h3 class="headline mb-0">{{ item.title.slice(0, 100) }}</h3>-->
-<!--                            </v-card-text>-->
-
-<!--&lt;!&ndash;                            <v-divider light></v-divider>&ndash;&gt;-->
-<!--                            <v-card-actions class="pa-3">-->
-<!--                                <v-icon class="mr-1">attach_money</v-icon>-->
-<!--                                <span class="subheading mr-2">{{ item.price }}</span>-->
-<!--                                <v-spacer></v-spacer>-->
-<!--                                <v-btn fab dark small color="pink"-->
-<!--                                       :disabled="!item.is_active"-->
-<!--                                       @click="addProductToCart(item)">-->
-<!--                                    <v-icon dark>add_shopping_cart</v-icon>-->
-<!--                                </v-btn>-->
-<!--                            </v-card-actions>-->
-<!--                        </v-card>-->
                     </v-item>
                 </v-flex>
             </v-layout>
@@ -117,5 +91,8 @@
         opacity: .5;
         position: absolute;
         width: 100%;
+    }
+    .v-btn--floating.v-btn--absolute{
+        z-index: 1;
     }
 </style>

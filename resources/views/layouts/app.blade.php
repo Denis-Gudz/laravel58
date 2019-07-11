@@ -13,9 +13,6 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.js"></script>
     <script src="{{ asset('js/vue-router.js') }}"></script>
-{{--    <script src="https://unpkg.com/vue-router/dist/vue-router.js"></script>--}}
-{{--    <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>--}}
-
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -29,7 +26,7 @@
 <body>
     <div id="app">
 
-        <v-toolbar dark color="primary">
+        <v-toolbar dark color="primary" fixed z-index>
 
             <v-toolbar-items class="hidden-sm-and-down">
                 <v-btn flat href="{{ route('shop.admin.categories.index') }}">Категории</v-btn>
@@ -43,8 +40,7 @@
 
         </v-toolbar>
 
-
-        <main class="py-4">
+        <main class="py-5">
             @yield('content')
         </main>
     </div>

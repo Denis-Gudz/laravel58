@@ -4,7 +4,8 @@ import shop from '../../api/shop'
 // shape: [{ id, quantity }]
 const state = {
   items: [],
-  checkoutStatus: null
+  checkoutStatus: null,
+  successfulAddToCart:false,
 }
 
 // getters
@@ -29,7 +30,11 @@ const getters = {
     return getters.cartProducts.reduce((total, product) => {
       return total + product.price * product.quantity
     }, 0)
-  }
+  },
+
+  isAddToCart:(state, getters) => {
+      return state.successfulAddToCart;
+    },
 }
 
 // actions
@@ -56,11 +61,11 @@ const actions = {
     if (product.is_active) {
       const cartItem = state.items.find(item => item.id === product.id)
       if (!cartItem) {
-        commit('pushProductToCart', { id: product.id })
+        commit('pushProductToCart', { id: product.id });
       } else {
-        commit('incrementItemQuantity', cartItem)
+        commit('incrementItemQuantity', cartItem);
       }
-        alert('Товар добавлен в корзину.');
+        commit('setStatusAddToCart', true);
       // remove 1 item from stock
       // commit('products/decrementProductInventory', { id: product.id }, { root: true })
     }
@@ -73,12 +78,12 @@ const mutations = {
     state.items.push({
       id,
       quantity: 1
-    })
+    });
   },
 
   incrementItemQuantity (state, { id }) {
-    const cartItem = state.items.find(item => item.id === id)
-    cartItem.quantity++
+    const cartItem = state.items.find(item => item.id === id);
+    cartItem.quantity++;
   },
 
   setCartItems (state, { items }) {
@@ -87,7 +92,12 @@ const mutations = {
 
   setCheckoutStatus (state, status) {
     state.checkoutStatus = status
+  },
+
+  setStatusAddToCart(state, status){
+      state.successfulAddToCart = status;
   }
+
 }
 
 export default {
