@@ -1,7 +1,7 @@
 <template>
     <v-toolbar-items class="hidden-sm-and-down">
 
-        <v-text-field label="Search" v-model="searchText" rounded solo-inverted clearable flat class="mt-2 hidden-sm-and-down" @click:clear="clearSearchText">
+        <v-text-field label="Search" v-model="searchText" solo-inverted clearable flat class="mt-md-3 hidden-sm-and-down search-field" @click:clear="clearSearchText">
         </v-text-field>
 
         <v-btn icon @click="searchItemByTittle">
@@ -60,5 +60,11 @@
 </script>
 
 <style scoped>
+    .search-field >>> .v-input__control{
+        min-height: 36px;
 
+    }
+    .search-field >>> .v-input__control>.v-input__slot{
+         border-radius: 26px;
+     }
 </style>
