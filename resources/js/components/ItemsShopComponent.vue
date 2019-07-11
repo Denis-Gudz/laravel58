@@ -5,64 +5,21 @@
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-12">
-                        <custom_input v-model="searchText"></custom_input>
-                        <p>{{ description }}</p>
-
                         <v-app>
-                            <ShoppingCart v-model="dialog"/>
-                            <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
-                                <nav class="nav nav-pills nav-fill">
-
-                                    <v-bottom-nav
-                                        :active.sync="bottomNav"
-                                        :color='indigo'
-                                        :value="true"
-                                        absolute
-                                        dark
-                                        shift
-                                    >
-
-                                        <v-btn dark v-on:click="currentView = 'grid'">
-                                            <span>Сетка</span>
-                                            <v-icon>view_module</v-icon>
-                                        </v-btn>
-
-                                        <v-btn v-on:click="currentView = 'list'">
-                                            <span>Список</span>
-                                            <v-icon>view_list</v-icon>
-                                        </v-btn>
-                                    </v-bottom-nav>
-                                </nav>
-
-                                <v-badge left @click="dialog= true">
-                                    <template v-slot:badge>
-                                        <span>{{cartTotalQuantity}}</span>
-                                    </template>
-                                    <v-icon
-                                        large
-                                        color="grey lighten-1"
-                                        @click="dialog= true"
-                                    >
-                                        shopping_cart
-                                    </v-icon>
-                                </v-badge>
-
-                            </nav>
-                            <br>
+                            <ShoppingCart v-model="cartDialog"/>
 
                             <component :is="currentViewComponent" :items="items"></component>
 
-                            <component :is="'item_show_description'" v-if="currentView === 'list'"></component>
+                            <component :is="'item_show_description'" v-if="view === 'list'"></component>
 
-
-                <div class="text-xs-center">
-                    <v-pagination
-                        v-model="page"
-                        :length="parseInt(last_page)"
-                        :total-visible="7"
-                        @input="onPageChange"
-                    ></v-pagination>
-                </div>
+                            <div class="text-xs-center">
+                                <v-pagination
+                                    v-model="page"
+                                    :length="parseInt(last_page)"
+                                    :total-visible="7"
+                                    @input="onPageChange"
+                                ></v-pagination>
+                            </div>
                         </v-app>
                     </div>
                 </div>
@@ -82,7 +39,7 @@
 
     export default {
         name: 'shop-items',
-        props: ['last_page'],
+        props: [''],
         components:{
             item_view_list,
             item_view_grid,
@@ -98,10 +55,12 @@
                 itemId: null,
                 loading: false,
                 page: 1,
-                currentView: 'list',
-                searchText:'',
+                view: 'grid',
                 description: '',
                 bottomNav: 1,
+                products: null,
+                last_page: 1,
+                searchTextStr: '',
             }
         },
         beforeMount() {
@@ -109,12 +68,27 @@
         },
         computed: {
             currentViewComponent() {
-                return 'item_view_' + this.currentView;
+                this.changeView();
+                return 'item_view_' + this.view;
+            },
+
+            cartDialog:{
+                get: function () {
+                    return this.showCartDialog();
+                },
+                set: function(value){
+                    this.$store.commit('view/setShowCartDialog',false);
+                }
             },
 
             ...mapGetters('cart', [
                 'cartTotalQuantity'
             ]),
+
+            searchText(){
+                this.getSearchText();
+            },
+
         },
         watch:{
             searchText: 'changeSearchText',
@@ -124,6 +98,7 @@
                 axios.get('/items/shop/api?page='+ pageNum)
                     .then((response) => {
                         this.items = response.data.data;
+                        this.last_page = response.data.last_page;
                         this.$store.commit('products/setProducts',this.items)
                     })
                     .catch(() => {
@@ -131,7 +106,11 @@
                     });
             },
             onPageChange(page){
-                this.getItems(page);
+                if(this.searchTextStr === '' || this.searchTextStr === null) {
+                    this.getItems(page);
+                }else{
+                    this.searchItemByTittle(page);
+                }
             },
             open(id){
                 this.itemId = id;
@@ -139,8 +118,31 @@
                 this.loading = true;
             },
             changeSearchText(){
-              this.description = this.searchText;
+            console.log(changeSearchText);
+              this.description = this.searchTextStr;
             },
-        }
+            changeView(){
+                this.view = this.$store.getters['view/getCurrentView'];
+            },
+            showCartDialog(){
+                return this.$store.getters['view/showCartDialog'];
+            },
+
+            getSearchText(){
+                this.searchTextStr = this.$store.getters['view/getSearchText'];
+                this.onPageChange(1);
+            },
+
+            searchItemByTittle(pageNum = 1) {
+                axios.get('/items/search/api?title='+ this.searchTextStr + '&page=' + pageNum)
+                    .then((response) => {
+                        this.items = response.data.data;
+                        this.last_page = response.data.last_page;
+                    })
+                    .catch(() => {
+                        console.log('search title server error from here');
+                    });
+            },
+        },
     }
 </script>

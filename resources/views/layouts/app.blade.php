@@ -29,10 +29,20 @@
 <body>
     <div id="app">
 
-        <a class="btn btn-primary" href="{{ route('shop.admin.categories.index') }}" role="button">Категории</a>
-        <a class="btn btn-primary" href="{{ route('shop.admin.items.index') }}" role="button">Товары</a>
+        <v-toolbar dark color="primary">
 
-        <a class="btn btn-primary" href="{{ route('shop.items.index') }}" role="button">Каталог товаров</a>
+            <v-toolbar-items class="hidden-sm-and-down">
+                <v-btn flat href="{{ route('shop.admin.categories.index') }}">Категории</v-btn>
+                <v-btn flat href="{{ route('shop.admin.items.index') }}" >Товары</v-btn>
+                <v-btn flat href="{{ route('shop.items.index') }}">Каталог товаров</v-btn>
+            </v-toolbar-items>
+
+            <v-spacer></v-spacer>
+
+            @yield('navbar')
+
+        </v-toolbar>
+
 
         <main class="py-4">
             @yield('content')

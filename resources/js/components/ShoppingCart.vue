@@ -57,7 +57,7 @@ export default {
   methods: {
     checkout (products) {
       this.$store.dispatch('cart/checkout', products)
-    }
-  }
+    },
+  },
 }
 </script>

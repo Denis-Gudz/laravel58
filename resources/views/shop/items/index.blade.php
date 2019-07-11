@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@section('navbar')
+    <shop-navbar></shop-navbar>
+@endsection
+
 @section('content')
-    <items-shop-component last_page="{{ $paginator->lastPage() }}"></items-shop-component>
+    <items-shop-component></items-shop-component>
 @endsection

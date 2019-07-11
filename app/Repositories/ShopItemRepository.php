@@ -57,4 +57,30 @@ class ShopItemRepository extends CoreRepository
         return $this->startConditions()->find($id);
     }
 
+    public function getByTitle($title = null, $perPage = null)
+    {
+        $columns = [
+            'id',
+            'title',
+            'slug',
+            'price',
+            'description',
+            'is_active',
+            'category_id',
+        ];
+
+        $result = $this->startConditions()
+            ->select($columns)
+            ->orderBy('id')
+            ->where('title', 'LIKE', '%' . $title . '%')
+            ->with([
+                'category' => function($query){
+                    $query->select(['id', 'title']);
+                },
+            ])
+            ->paginate($perPage);
+
+        return $result;
+    }
+
 }

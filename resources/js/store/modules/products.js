@@ -2,11 +2,16 @@ import shop from '../../api/shop'
 
 // initial state
 const state = {
-  all: []
+  all: [],
+  productsSearch:[],
 }
 
 // getters
-const getters = {}
+const getters = {
+    getProducts: (state) => {
+        return state.productsSearch;
+    }
+}
 
 // actions
 const actions = {
@@ -23,6 +28,11 @@ const mutations = {
       var arr = _.unionBy(state.all, products, 'id');
       state.all = arr;
   },
+
+  setProductsSearch (state, products) {
+      var arr = _.differenceBy(products, 'id');
+      state.productsSearch = arr;
+},
 
   decrementProductInventory (state, { id }) {
     const product = state.all.find(product => product.id === id)

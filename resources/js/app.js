@@ -41,6 +41,8 @@ Vue.component('items-shop-component', require('./components/ItemsShopComponent')
 Vue.component('item_show_description', require('./components/items/includes/item_show_description').default);
 
 Vue.component('custom-input', import('./components/items/includes/custom-input').default);
+Vue.component('shop-navbar', require('./components/shopNavbar').default);
+Vue.component('navbar', import('./components/navbar').default);
 
 const categoryComponent = Vue.component('category-edit-component', require('./components/categories/ShopCategoryComponent').default);
 const categoryCreateComponent = Vue.component('category-create-component', require('./components/categories/ShopCategoryCreateComponent').default);
@@ -75,6 +77,14 @@ const router = new VueRouter({
             path: '/shop/items/:id/show',
             components: {
                 default: itemComponent,
+
+            }
+        },
+        {
+            name: 'shopAdminCategories',
+            path: '/shop/admin/categories/index',
+            components: {
+                default: 'categories-component',
 
             }
         },

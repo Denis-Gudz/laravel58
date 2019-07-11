@@ -43,4 +43,17 @@ class ItemsApiController extends Controller
         return $paginator;
     }
 
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function search()
+    {
+        $title = $_GET['title'];
+        $paginator = $this->shopItemRepository->getByTitle($title, 6);
+
+        return $paginator;
+    }
+
 }

@@ -76,6 +76,11 @@ Route::get('items/shop/api',[
     'uses' => 'API\ItemsApiController@shop'
 ]);
 
+Route::get('items/search/api',[
+    'as' => 'items.shop.search.api',
+    'uses' => 'API\ItemsApiController@search'
+]);
+
 Route::get('item/api',[
     'as' => 'items.api',
     'uses' => 'API\ItemApiController@index'
