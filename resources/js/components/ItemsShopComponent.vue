@@ -6,7 +6,7 @@
 
                 <v-snackbar
                     v-model="isAddToCart"
-                    :timeout="6000"
+                    :timeout="3000"
                     :top="true"
                     color="green lighten-1"
                 >
@@ -20,11 +20,11 @@
                     </v-btn>
                 </v-snackbar>
 
+                <ShoppingCart/>
+
                 <div class="row justify-content-center">
                     <div class="col-md-12">
                         <v-app>
-                            <ShoppingCart v-model="cartDialog"/>
-
                             <component :is="currentViewComponent" :items="items"></component>
 
                             <component :is="'item_show_description'" v-if="view === 'list'"></component>
@@ -67,15 +67,9 @@
         data(){
             return{
                 items: null,
-                dialog_show: false,
-                dialog: false,
-                itemId: null,
-                loading: false,
                 page: 1,
                 view: 'grid',
                 description: '',
-                bottomNav: 1,
-                products: null,
                 last_page: 1,
                 searchTextStr: '',
             }
@@ -87,15 +81,6 @@
             currentViewComponent() {
                 this.changeView();
                 return 'item_view_' + this.view;
-            },
-
-            cartDialog:{
-                get: function () {
-                    return this.showCartDialog();
-                },
-                set: function(value){
-                    this.$store.commit('view/setShowCartDialog',false);
-                }
             },
 
             ...mapGetters('cart', [
@@ -131,6 +116,7 @@
                         console.log('handle server error from here');
                     });
             },
+
             onPageChange(page){
                 if(this.searchTextStr === '' || this.searchTextStr === null) {
                     this.getItems(page);
@@ -138,19 +124,13 @@
                     this.searchItemByTittle(page);
                 }
             },
-            open(id){
-                this.itemId = id;
-                this.dialog_show = true;
-                this.loading = true;
-            },
+
             changeSearchText(){
               this.description = this.searchTextStr;
             },
+
             changeView(){
                 this.view = this.$store.getters['view/getCurrentView'];
-            },
-            showCartDialog(){
-                return this.$store.getters['view/showCartDialog'];
             },
 
             getSearchText(){

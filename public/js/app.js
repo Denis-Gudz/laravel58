@@ -1921,15 +1921,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       items: null,
-      dialog_show: false,
-      dialog: false,
-      itemId: null,
-      loading: false,
       page: 1,
       view: 'grid',
       description: '',
-      bottomNav: 1,
-      products: null,
       last_page: 1,
       searchTextStr: ''
     };
@@ -1941,14 +1935,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     currentViewComponent: function currentViewComponent() {
       this.changeView();
       return 'item_view_' + this.view;
-    },
-    cartDialog: {
-      get: function get() {
-        return this.showCartDialog();
-      },
-      set: function set(value) {
-        this.$store.commit('view/setShowCartDialog', false);
-      }
     }
   }, Object(vuex__WEBPACK_IMPORTED_MODULE_5__["mapGetters"])('cart', ['cartTotalQuantity']), {
     isAddToCart: {
@@ -1987,19 +1973,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         this.searchItemByTittle(page);
       }
     },
-    open: function open(id) {
-      this.itemId = id;
-      this.dialog_show = true;
-      this.loading = true;
-    },
     changeSearchText: function changeSearchText() {
       this.description = this.searchTextStr;
     },
     changeView: function changeView() {
       this.view = this.$store.getters['view/getCurrentView'];
-    },
-    showCartDialog: function showCartDialog() {
-      return this.$store.getters['view/showCartDialog'];
     },
     getSearchText: function getSearchText() {
       this.searchTextStr = this.$store.getters['view/getSearchText'];
@@ -2075,9 +2053,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  props: ['value'],
   data: function data() {
     return {
       currency: 0
@@ -2090,11 +2100,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   }), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])('cart', {
     products: 'cartProducts',
     total: 'cartTotalPrice'
-  })),
+  }), {
+    cartDialog: {
+      get: function get() {
+        return this.$store.getters['view/showCartDialog'];
+      },
+      set: function set(value) {
+        this.$store.commit('view/setShowCartDialog', value);
+      }
+    }
+  }),
   methods: {
     checkout: function checkout(products) {
       this.$store.dispatch('cart/checkout', products);
+    },
+    closeCart: function closeCart() {
+      this.$store.commit('view/setShowCartDialog', false);
     }
+  },
+  beforeMount: function beforeMount() {
+    this.cartOpen = this.value;
   }
 });
 
@@ -39677,7 +39702,7 @@ var render = function() {
               _c(
                 "v-snackbar",
                 {
-                  attrs: { timeout: 6000, top: true, color: "green lighten-1" },
+                  attrs: { timeout: 3000, top: true, color: "green lighten-1" },
                   model: {
                     value: _vm.isAddToCart,
                     callback: function($$v) {
@@ -39702,6 +39727,8 @@ var render = function() {
                 1
               ),
               _vm._v(" "),
+              _c("ShoppingCart"),
+              _vm._v(" "),
               _c("div", { staticClass: "row justify-content-center" }, [
                 _c(
                   "div",
@@ -39710,16 +39737,6 @@ var render = function() {
                     _c(
                       "v-app",
                       [
-                        _c("ShoppingCart", {
-                          model: {
-                            value: _vm.cartDialog,
-                            callback: function($$v) {
-                              _vm.cartDialog = $$v
-                            },
-                            expression: "cartDialog"
-                          }
-                        }),
-                        _vm._v(" "),
                         _c(_vm.currentViewComponent, {
                           tag: "component",
                           attrs: { items: _vm.items }
@@ -39789,130 +39806,198 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row justify-content-center" }, [
-    _c(
-      "div",
-      { staticClass: "col-md-12" },
-      [
-        _c(
-          "v-dialog",
-          {
-            attrs: { value: _vm.value },
-            on: {
-              input: function($event) {
-                return _vm.$emit("input")
-              }
-            }
-          },
-          [
-            _c("form", [
-              _c("div", { staticClass: "card" }, [
-                _c("div", { staticClass: "card-body" }, [
-                  _c("div", { staticClass: "card-title" }, [
-                    _c("h2", [_vm._v("Your Cart")])
-                  ]),
-                  _vm._v(" "),
+  return _c(
+    "v-navigation-drawer",
+    {
+      attrs: { right: "", temporary: "", width: 400, fixed: "", app: "" },
+      model: {
+        value: _vm.cartDialog,
+        callback: function($$v) {
+          _vm.cartDialog = $$v
+        },
+        expression: "cartDialog"
+      }
+    },
+    [
+      _c("form", [
+        _c("div", { staticClass: "card" }, [
+          _c(
+            "div",
+            { staticClass: "card-body" },
+            [
+              _c(
+                "div",
+                { staticClass: "card-title" },
+                [
                   _c(
-                    "p",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: !_vm.products.length,
-                          expression: "!products.length"
-                        }
-                      ]
-                    },
-                    [_c("i", [_vm._v("Please add some products to cart.")])]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "ul",
-                    _vm._l(_vm.products, function(product) {
-                      return _c("li", { key: product.id }, [
-                        _vm._v(
-                          "\n                        " +
-                            _vm._s(product.title) +
-                            " - " +
-                            _vm._s(_vm._f("currency")(product.price)) +
-                            " x " +
-                            _vm._s(product.quantity) +
-                            "\n                      "
-                        )
-                      ])
-                    }),
-                    0
-                  ),
-                  _vm._v(" "),
-                  _c("p", [
-                    _vm._v("Total: " + _vm._s(_vm._f("currency")(_vm.total)))
-                  ]),
-                  _vm._v(" "),
-                  _c("p", [
-                    _c(
-                      "button",
-                      {
-                        staticClass: "btn btn-primary",
-                        attrs: { disabled: !_vm.products.length },
-                        on: {
-                          click: function($event) {
-                            return _vm.checkout(_vm.products)
-                          }
-                        }
-                      },
-                      [_vm._v("Checkout")]
-                    )
-                  ]),
-                  _vm._v(" "),
-                  _c(
-                    "p",
-                    {
-                      directives: [
-                        {
-                          name: "show",
-                          rawName: "v-show",
-                          value: _vm.checkoutStatus,
-                          expression: "checkoutStatus"
-                        }
-                      ]
-                    },
+                    "v-list",
+                    { staticClass: "pa-1" },
                     [
-                      _vm.checkoutStatus === "successful"
-                        ? _c(
-                            "v-alert",
-                            { attrs: { value: true, type: "success" } },
+                      _c(
+                        "v-list-tile",
+                        { attrs: { avatar: "" } },
+                        [
+                          _c(
+                            "v-list-tile-action",
                             [
-                              _vm._v(
-                                "\n                          Checkout " +
-                                  _vm._s(_vm.checkoutStatus) +
-                                  "\n                      "
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { icon: "" },
+                                  on: {
+                                    click: function($event) {
+                                      $event.stopPropagation()
+                                      return _vm.closeCart($event)
+                                    }
+                                  }
+                                },
+                                [_c("v-icon", [_vm._v("chevron_right")])],
+                                1
                               )
-                            ]
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-tile-avatar",
+                            [_c("v-icon", [_vm._v("account_circle")])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-tile-content",
+                            [_c("v-list-tile-title", [_vm._v("John Leider")])],
+                            1
                           )
-                        : _c(
-                            "v-alert",
-                            { attrs: { value: true, type: "error" } },
-                            [
-                              _vm._v(
-                                "\n                        Checkout " +
-                                  _vm._s(_vm.checkoutStatus) +
-                                  "\n                    "
-                              )
-                            ]
-                          )
+                        ],
+                        1
+                      )
                     ],
                     1
                   )
-                ])
-              ])
-            ])
-          ]
-        )
-      ],
-      1
-    )
-  ])
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "p",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: !_vm.products.length,
+                      expression: "!products.length"
+                    }
+                  ]
+                },
+                [_c("i", [_vm._v("Please add some products to cart.")])]
+              ),
+              _vm._v(" "),
+              _c(
+                "v-list",
+                { staticClass: "pt-0", attrs: { dense: "" } },
+                [
+                  _c("v-divider"),
+                  _vm._v(" "),
+                  _vm._l(_vm.products, function(product) {
+                    return _c(
+                      "v-list-tile",
+                      { key: product.id, on: { click: function($event) {} } },
+                      [
+                        _c(
+                          "v-list-tile-action",
+                          [_c("v-icon", [_vm._v("grade")])],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "v-list-tile-content",
+                          [
+                            _c("v-list-tile-title", [
+                              _vm._v(_vm._s(product.title))
+                            ]),
+                            _vm._v(" "),
+                            _c("v-list-tile-title", [
+                              _vm._v(
+                                _vm._s(_vm._f("currency")(product.price)) +
+                                  " x " +
+                                  _vm._s(product.quantity)
+                              )
+                            ])
+                          ],
+                          1
+                        )
+                      ],
+                      1
+                    )
+                  })
+                ],
+                2
+              ),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v("Total: " + _vm._s(_vm._f("currency")(_vm.total)))
+              ]),
+              _vm._v(" "),
+              _c("p", [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { disabled: !_vm.products.length },
+                    on: {
+                      click: function($event) {
+                        return _vm.checkout(_vm.products)
+                      }
+                    }
+                  },
+                  [_vm._v("Checkout")]
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "p",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.checkoutStatus,
+                      expression: "checkoutStatus"
+                    }
+                  ]
+                },
+                [
+                  _vm.checkoutStatus === "successful"
+                    ? _c(
+                        "v-alert",
+                        { attrs: { value: true, type: "success" } },
+                        [
+                          _vm._v(
+                            "\n                  Checkout " +
+                              _vm._s(_vm.checkoutStatus) +
+                              "\n              "
+                          )
+                        ]
+                      )
+                    : _c("v-alert", { attrs: { value: true, type: "error" } }, [
+                        _vm._v(
+                          "\n                Checkout " +
+                            _vm._s(_vm.checkoutStatus) +
+                            "\n            "
+                        )
+                      ])
+                ],
+                1
+              )
+            ],
+            1
+          )
+        ])
+      ])
+    ]
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -42951,7 +43036,15 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-btn",
-        { attrs: { icon: "" }, on: { click: _vm.showCart } },
+        {
+          attrs: { icon: "" },
+          on: {
+            click: function($event) {
+              $event.stopPropagation()
+              return _vm.showCart($event)
+            }
+          }
+        },
         [
           _c(
             "v-badge",

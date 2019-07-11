@@ -13,7 +13,7 @@
             <v-icon v-if="view === 'grid'">view_list</v-icon>
         </v-btn>
 
-        <v-btn icon @click="showCart">
+        <v-btn icon @click.stop="showCart">
             <v-badge overlap color="orange">
                 <template v-slot:badge v-if="cartTotalQuantity > 0">
                     <span>{{cartTotalQuantity}}</span>
